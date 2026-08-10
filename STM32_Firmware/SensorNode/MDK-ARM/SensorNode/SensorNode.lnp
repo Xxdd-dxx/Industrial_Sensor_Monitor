@@ -1,0 +1,27 @@
+--cpu Cortex-M3
+"sensornode\startup_stm32f103xe.o"
+"sensornode\main.o"
+"sensornode\gpio.o"
+"sensornode\i2c.o"
+"sensornode\usart.o"
+"sensornode\stm32f1xx_it.o"
+"sensornode\stm32f1xx_hal_msp.o"
+"sensornode\sht30.o"
+"sensornode\stm32f1xx_hal_gpio_ex.o"
+"sensornode\stm32f1xx_hal_i2c.o"
+"sensornode\stm32f1xx_hal.o"
+"sensornode\stm32f1xx_hal_rcc.o"
+"sensornode\stm32f1xx_hal_rcc_ex.o"
+"sensornode\stm32f1xx_hal_gpio.o"
+"sensornode\stm32f1xx_hal_dma.o"
+"sensornode\stm32f1xx_hal_cortex.o"
+"sensornode\stm32f1xx_hal_pwr.o"
+"sensornode\stm32f1xx_hal_flash.o"
+"sensornode\stm32f1xx_hal_flash_ex.o"
+"sensornode\stm32f1xx_hal_exti.o"
+"sensornode\stm32f1xx_hal_uart.o"
+"sensornode\system_stm32f1xx.o"
+--strict --scatter "SensorNode\SensorNode.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "SensorNode.map" -o SensorNode\SensorNode.axf

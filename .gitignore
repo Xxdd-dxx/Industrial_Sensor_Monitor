@@ -1,0 +1,22 @@
+# Qt 编译及缓存文件夹
+build-*/
+debug/
+release/
+*.user
+*.pro.user
+
+# Keil / MDK 编译中间文件
+MDK-ARM/Objects/
+MDK-ARM/Listings/
+*.uvguix.*
+*.dep
+*.bak
+*.map
+*.hex
+*.bin
+*.uvoptx
+*.uvprojx.bak
+
+# 数据库及临时文件
+*.db
+*.log
