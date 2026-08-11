@@ -1,22 +1,32 @@
-# Qt 编译及缓存文件夹
-build-*/
-debug/
-release/
-*.user
-*.pro.user
+# ========================
+# Qt / C++ 忽略规则
+# ========================
+Software_PC/build-*/
+Software_PC/*.user
+Software_PC/*.user.*
+Software_PC/debug/
+Software_PC/release/
+Software_PC/*.exe
+Software_PC/*.a
+Software_PC/*.so
+Software_PC/*.dll
+Software_PC/*.dylib
 
-# Keil / MDK 编译中间文件
-MDK-ARM/Objects/
-MDK-ARM/Listings/
-*.uvguix.*
-*.dep
-*.bak
-*.map
-*.hex
-*.bin
-*.uvoptx
-*.uvprojx.bak
-
-# 数据库及临时文件
-*.db
-*.log
+# ========================
+# STM32 / Keil MDK 忽略规则
+# ========================
+Firmware_MCU/MDK-ARM/DebugConfig/
+Firmware_MCU/MDK-ARM/RTE/
+Firmware_MCU/MDK-ARM/*.uvguix.*
+Firmware_MCU/MDK-ARM/*.uvoptx
+Firmware_MCU/MDK-ARM/Objects/
+Firmware_MCU/MDK-ARM/Listings/
+Firmware_MCU/**/*.o
+Firmware_MCU/**/*.d
+Firmware_MCU/**/*.crf
+Firmware_MCU/**/*.map
+Firmware_MCU/**/*.hex
+Firmware_MCU/**/*.axf
+Firmware_MCU/**/*.htm
+Firmware_MCU/**/*.lnp
+Firmware_MCU/**/*.sct

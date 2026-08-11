@@ -1,0 +1,18 @@
+QMainWindow, QWidget#centralwidget { background-color: #1e1e1e; }
+QSplitter::handle { background-color: transparent; width: 6px; }
+QSplitter::handle:horizontal { border-left: 1px dashed #4a4a4a; border-right: 1px dashed #4a4a4a; margin: 20px 1px; }
+QSplitter::handle:hover { background-color: #007acc; border: none; border-radius: 3px; }
+QSplitter::handle:pressed { background-color: #005c99; border: none; }
+QGroupBox { color: #4facfe; border: 1px solid #3a3a3a; border-radius: 5px; margin-top: 2ex; font-weight: bold; font-size: 16px; }
+QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top left; padding: 0 5px; left: 10px; }
+QLabel { color: #d4d4d4; font-size: 16px; }
+QLabel#lblTemp { color: #ff5252; font-size: 32px; font-weight: bold; font-family: Consolas; border-radius: 5px; }
+QLabel#lblHum { color: #00e5ff; font-size: 32px; font-weight: bold; font-family: Consolas; border-radius: 5px; }
+QComboBox { background-color: #2d2d30; color: #ffffff; border: 1px solid #4a4a4a; padding: 5px 15px 5px 10px; border-radius: 3px; font-size: 16px; min-height: 25px; }
+QComboBox QAbstractItemView { background-color: #2d2d30; color: #ffffff; selection-background-color: #007acc; font-size: 16px; outline: none; }
+QComboBox::drop-down { border: none; width: 25px; }
+QComboBox::down-arrow { image: none; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #d4d4d4; margin-top: 2px; }
+QPushButton { background-color: #007acc; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 18px; padding: 8px; }
+QPushButton:hover { background-color: #0098ff; }
+QPushButton:pressed { background-color: #005c99; }
+QPushButton:disabled { background-color: #3f3f46; color: #7a7a7a; }
