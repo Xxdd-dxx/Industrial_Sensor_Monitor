@@ -20,7 +20,7 @@
 
 ## **📸 运行效果展示 (Screenshots)**
 
-![][image1]  
+!image[imageimage][screenshot.png]  
 *(图注：左侧为通信连接与智能阈值巡航控制面板，右侧为 QSplineSeries 实时平滑温湿度波形，展现了模拟算法生成的逼真自然波动)*
 
 ## **🔌 硬件说明与接线指南 (Hardware Guide)**
