@@ -44,13 +44,17 @@
 #define configUSE_TICK_HOOK			0
 #define configCPU_CLOCK_HZ			( ( unsigned long ) 72000000 )
 #define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
-#define configMAX_PRIORITIES		( 5 )
+#define configMAX_PRIORITIES		( 7 )
 #define configMINIMAL_STACK_SIZE	( ( unsigned short ) 128 )
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( 17 * 1024 ) )
 #define configMAX_TASK_NAME_LEN		( 16 )
 #define configUSE_TRACE_FACILITY	0
 #define configUSE_16_BIT_TICKS		0
 #define configIDLE_SHOULD_YIELD		1
+
+/* 断言：越界/参数错误时直接停在这里，方便用调试器看调用栈定位，
+   避免静默的内存越界（之前 configMAX_PRIORITIES=5 配 P5 任务就是这么漏掉的） */
+#define configASSERT( x )		do { if ( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); for( ;; ); } } while( 0 )
 
 
 /* Set the following definitions to 1 to include the API function, or zero
@@ -66,10 +70,15 @@ to exclude the API function. */
 
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255
 (lowest) to 0 (1?) (highest). */
-#define configKERNEL_INTERRUPT_PRIORITY 		255
 /* !!!! configMAX_SYSCALL_INTERRUPT_PRIORITY must not be set to zero !!!!
 See http://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html. */
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	191 /* equivalent to 0xb0, or priority 11. */
+/* F103 NVIC 用 4 位优先级。FromISR 只能从"抢占优先级数值 >= 5"的中断里
+   调用；CubeMX 里 EXTI4 / USART1 的抢占优先级必须等于 5（5 << 4 = 0x50）。 */
+#define configPRIO_BITS							4
+#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY	15
+#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY	5
+#define configKERNEL_INTERRUPT_PRIORITY 		( configLIBRARY_LOWEST_INTERRUPT_PRIORITY << ( 8 - configPRIO_BITS ) )
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY 	( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << ( 8 - configPRIO_BITS ) )
 
 
 /* This is the value being used as per the ST library which permits 16
@@ -82,6 +91,7 @@ NVIC value of 255. */
 #define xPortPendSVHandler PendSV_Handler
 #define vPortSVCHandler SVC_Handler 
 #define INCLUDE_xTaskGetSchedulerState 1
+#define configUSE_COUNTING_SEMAPHORES 1
 
 #endif /* FREERTOS_CONFIG_H */
 

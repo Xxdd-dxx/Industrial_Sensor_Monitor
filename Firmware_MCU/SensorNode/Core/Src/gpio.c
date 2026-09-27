@@ -46,11 +46,12 @@ void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_ALARM_GPIO_Port, LED_ALARM_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, LCD_RST_Pin_Pin|LCD_DC_Pin_Pin|LCD_CS_Pin_Pin|LCD_BLK_Pin_Pin
+                          |LED_ALARM_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin : BTN_EMERGENCY_Pin */
   GPIO_InitStruct.Pin = BTN_EMERGENCY_Pin;
@@ -58,12 +59,18 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(BTN_EMERGENCY_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LED_ALARM_Pin */
-  GPIO_InitStruct.Pin = LED_ALARM_Pin;
+  /*Configure GPIO pins : LCD_RST_Pin_Pin LCD_DC_Pin_Pin LCD_CS_Pin_Pin LCD_BLK_Pin_Pin
+                           LED_ALARM_Pin */
+  GPIO_InitStruct.Pin = LCD_RST_Pin_Pin|LCD_DC_Pin_Pin|LCD_CS_Pin_Pin|LCD_BLK_Pin_Pin
+                          |LED_ALARM_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_ALARM_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 6, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
 }
 

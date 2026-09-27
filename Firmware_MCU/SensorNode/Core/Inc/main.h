@@ -59,6 +59,15 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define BTN_EMERGENCY_Pin GPIO_PIN_4
 #define BTN_EMERGENCY_GPIO_Port GPIOE
+#define BTN_EMERGENCY_EXTI_IRQn EXTI4_IRQn
+#define LCD_RST_Pin_Pin GPIO_PIN_10
+#define LCD_RST_Pin_GPIO_Port GPIOB
+#define LCD_DC_Pin_Pin GPIO_PIN_11
+#define LCD_DC_Pin_GPIO_Port GPIOB
+#define LCD_CS_Pin_Pin GPIO_PIN_12
+#define LCD_CS_Pin_GPIO_Port GPIOB
+#define LCD_BLK_Pin_Pin GPIO_PIN_14
+#define LCD_BLK_Pin_GPIO_Port GPIOB
 #define LED_ALARM_Pin GPIO_PIN_5
 #define LED_ALARM_GPIO_Port GPIOB
 

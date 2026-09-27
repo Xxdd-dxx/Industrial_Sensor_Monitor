@@ -3,6 +3,9 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+// STM32F103 主频 72MHz：延迟(μs) = cycles / 72
+static const double SYSCLK_MHZ = 72.0;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -32,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(serialWorker, &SerialWorker::portOpenedStatus, this, &MainWindow::onPortOpenedStatus);
     connect(serialWorker, &SerialWorker::dataParsed, this, &MainWindow::onDataParsed);
     connect(serialWorker, &SerialWorker::alarmTriggered, this, &MainWindow::onAlarmTriggered);
+    connect(serialWorker, &SerialWorker::latencyReported, this, &MainWindow::onLatencyReported);
+    connect(serialWorker, &SerialWorker::frameLossDetected, this, &MainWindow::onFrameLossDetected);
 
     workerThread->start();
 
@@ -345,7 +350,41 @@ void MainWindow::flushDatabaseCache()
     dbCache.clear();
 }
 
-void MainWindow::onAlarmTriggered()
+void MainWindow::onAlarmTriggered(quint32 source, quint32 tick)
 {
-    QMessageBox::critical(this, "⚠️ 紧急报警", "收到下位机硬件触发的紧急报警信号！");
+    QString msg = QString("收到下位机硬件触发的紧急报警！\n\n报警源: 0x%1\n设备 Tick: %2")
+                      .arg(source, 2, 16, QChar('0'))
+                      .arg(tick);
+
+    if (alarmBox && alarmBox->isVisible()) {
+        // 已有弹窗：只更新内容，不叠加（计数信号量修复后连按会连发多帧）
+        alarmBox->setText(msg);
+        alarmBox->raise();
+    } else {
+        alarmBox = new QMessageBox(this);
+        alarmBox->setIcon(QMessageBox::Critical);
+        alarmBox->setWindowTitle("紧急报警");
+        alarmBox->setText(msg);
+        alarmBox->setAttribute(Qt::WA_DeleteOnClose);
+        connect(alarmBox, &QObject::destroyed, this, [this]() { alarmBox = nullptr; });
+        alarmBox->show();   // 非模态：不阻塞主线程，后续数据帧照常接收
+    }
+}
+
+void MainWindow::onLatencyReported(quint32 maxCycles)
+{
+    // 72 MHz 主频下：延迟(μs) = cycles / 72
+    double latencyUs = maxCycles / SYSCLK_MHZ;
+    statusBar()->showMessage(
+        QString("【DWT 实测】中断 → 报警任务最坏唤醒延迟: %1 μs (%2 周期)")
+            .arg(latencyUs, 0, 'f', 2)
+            .arg(maxCycles),
+        15000);
+}
+
+void MainWindow::onFrameLossDetected(int lostCount)
+{
+    statusBar()->showMessage(
+        QString("【丢帧警告】检测到 %1 帧丢失！(SEQ 不连续)").arg(lostCount),
+        15000);
 }

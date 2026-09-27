@@ -1,32 +1,47 @@
-# ========================
-# Qt / C++ 忽略规则
-# ========================
-Software_PC/build-*/
-Software_PC/*.user
-Software_PC/*.user.*
-Software_PC/debug/
-Software_PC/release/
-Software_PC/*.exe
-Software_PC/*.a
-Software_PC/*.so
-Software_PC/*.dll
-Software_PC/*.dylib
+# ========================================
+# 下位机 Keil / STM32CubeMX 编译产物
+# ========================================
+# Keil
+**/MDK-ARM/*.uvguix.*
+**/MDK-ARM/*.uvoptx
+**/MDK-ARM/*.uvprojx.bak
+**/MDK-ARM/*.scvd
+**/MDK-ARM/**/Objects/
+**/MDK-ARM/**/Listings/
+**/MDK-ARM/**/*.d
+**/MDK-ARM/**/*.o
+**/MDK-ARM/**/*.crf
+**/MDK-ARM/**/*.htm
+**/MDK-ARM/**/*.lnp
+**/MDK-ARM/**/*.map
+**/MDK-ARM/**/*.axf
+**/MDK-ARM/**/*.hex
+**/MDK-ARM/**/*.bin
+**/MDK-ARM/**/*.elf
 
-# ========================
-# STM32 / Keil MDK 忽略规则
-# ========================
-Firmware_MCU/MDK-ARM/DebugConfig/
-Firmware_MCU/MDK-ARM/RTE/
-Firmware_MCU/MDK-ARM/*.uvguix.*
-Firmware_MCU/MDK-ARM/*.uvoptx
-Firmware_MCU/MDK-ARM/Objects/
-Firmware_MCU/MDK-ARM/Listings/
-Firmware_MCU/**/*.o
-Firmware_MCU/**/*.d
-Firmware_MCU/**/*.crf
-Firmware_MCU/**/*.map
-Firmware_MCU/**/*.hex
-Firmware_MCU/**/*.axf
-Firmware_MCU/**/*.htm
-Firmware_MCU/**/*.lnp
-Firmware_MCU/**/*.sct
+# STM32CubeMX 临时文件
+**/.mxproject
+**/Core/Startup/*.lst
+
+# J-Link / ST-Link 调试文件
+**/*.jlink
+**/*.launch
+
+# ========================================
+# 上位机 Qt 编译产物
+# ========================================
+**/*.pro.user
+**/*.pro.user.*
+**/build-*/
+**/build/
+**/.qmake.stash
+**/.qtc_clangd/
+**/.qtc_clangd/
+
+# ========================================
+# 通用
+# ========================================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp

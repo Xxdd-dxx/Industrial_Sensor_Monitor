@@ -29,7 +29,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 // ==========================================
-// 新增：用于在内存中缓存数据的结构体
+// 用于在内存中缓存数据的结构体
 // ==========================================
 struct SensorRecord {
     QString time;
@@ -53,7 +53,9 @@ private slots:
 
     void onPortOpenedStatus(bool success, const QString &errorMsg);
     void onDataParsed(double temp, double hum);
-    void onAlarmTriggered();
+    void onAlarmTriggered(quint32 source, quint32 tick);   // 改：带报警源与时间戳
+    void onLatencyReported(quint32 maxCycles);             // 新：DWT 延迟诊断
+    void onFrameLossDetected(int lostCount);               // 新：丢帧检测
 
 signals:
     void reqOpenPort(const QString &portName, int baudRate);
@@ -85,10 +87,13 @@ private:
     int timeCount;
 
     // ==========================================
-    // 新增：数据库缓存队列与批量写入函数
+    // 数据库缓存队列与批量写入函数
     // ==========================================
     QList<SensorRecord> dbCache;
     void flushDatabaseCache();
+
+    // 硬件报警非模态弹窗（复用单个实例，避免连续报警时弹窗堆积）
+    QMessageBox *alarmBox = nullptr;
 
     void initUI();
     void initDatabase();
